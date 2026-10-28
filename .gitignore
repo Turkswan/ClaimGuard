@@ -218,3 +218,27 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Data and ML outputs: never commit data or models
+data/
+mlruns/
+mlartifacts/
+mlflow-local/
+pretrained/
+*.db
+*.pkl
+
+# Logs
+*.log
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+terraform.tfvars
+
+# Local env and macOS clutter
+.env
+.DS_Store
