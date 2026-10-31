@@ -242,3 +242,53 @@ terraform.tfvars
 # Local env and macOS clutter
 .env
 .DS_Store
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Terraform saved plans
+tfplan
+*.tfplan
+plan.txt
+
+# Terraform working directory
+**/.terraform/
+
+# Terraform variable files (may contain sensitive values)
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+
+# AWS credentials
+.aws/
+credentials
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# MLflow tracking data and artifacts
+mlflow.db
+mlruns/
+mlartifacts/
+
+# Local datasets
+data/*.csv
+
+# Python virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Test and lint cache
+.pytest_cache/
+.ruff_cache/
+
+# Logs
+*.log
