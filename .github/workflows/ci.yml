@@ -58,6 +58,11 @@ jobs:
         image: [train, serve, mlflow]
     steps:
       - uses: actions/checkout@v7
+      - name: Debug GitHub identity
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Branch/ref: $GITHUB_REF"
+          echo "Event: $GITHUB_EVENT_NAME"
 
       - name: Log in to AWS with OIDC (no stored keys)
         uses: aws-actions/configure-aws-credentials@v6
