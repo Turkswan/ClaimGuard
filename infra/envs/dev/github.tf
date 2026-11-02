@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "github_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_repo}:ref:refs/heads/main"]
+      values   = ["repo:Turkswan@193445163/ClaimGuard@1437228961:ref:refs/heads/main"]
     }
   }
 }
