@@ -1,0 +1,36 @@
+# Local copy of the platform: tracking server, a training job and the API.
+services:
+  mlflow:
+    build: { context: ., dockerfile: docker/mlflow.Dockerfile }
+    command: >
+      mlflow server --host 0.0.0.0 --port 5000
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --artifacts-destination /mlflow/artifacts
+      --allowed-hosts "mlflow:5000,localhost:*,127.0.0.1:*"
+    ports: ["5050:5000"] # 5050 on your Mac: macOS AirPlay Receiver already uses port 5000
+    volumes: ["mlflow-data:/mlflow"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 5s
+      retries: 20
+
+  train:
+    build: { context: ., dockerfile: docker/train.Dockerfile }
+    command: ["python", "-m", "claimguard.train", "--data", "/data/claims.csv"]
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    volumes: ["./data:/data:ro"]
+    depends_on: { mlflow: { condition: service_healthy } }
+    profiles: ["jobs"]
+
+  api:
+    build: { context: ., dockerfile: docker/serve.Dockerfile }
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MODEL_URI: models:/claimguard-fraud@champion
+    ports: ["8000:8000"]
+    depends_on: { mlflow: { condition: service_healthy } }
+    profiles: ["serve"]
+
+volumes:
+  mlflow-data: {}
